@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Math Brain Game</title>
+  <style>
+    body { text-align: center; background: #222; color: #fff; font-family: sans-serif; }
+    input { font-size: 1.2em; padding: 5px; }
+    button { padding: 10px 20px; margin-top: 10px; font-size: 1em; }
+  </style>
+</head>
+<body>
+
+<h1>🧠 Quick Math Quiz</h1>
+<p id="question"></p>
+<input type="number" id="answer" placeholder="Enter answer">
+<button onclick="checkAnswer()">Submit</button>
+<p id="score">Score: 0</p>
+
+<script>
+  let num1, num2, score = 0;
+  const question = document.getElementById('question');
+  const answer = document.getElementById('answer');
+  const scoreText = document.getElementById('score');
+
+  function newQuestion() {
+    num1 = Math.floor(Math.random() * 20);
+    num2 = Math.floor(Math.random() * 20);
+    question.innerText = `What is ${num1} + ${num2}?`;
+    answer.value = '';
+    answer.focus();
+  }
+
+  function checkAnswer() {
+    const userAnswer = parseInt(answer.value);
+    if (userAnswer === num1 + num2) {
+      score++;
+      scoreText.innerText = `Score: ${score}`;
+    } else {
+      alert("❌ Wrong answer!");
+    }
+    newQuestion();
+  }
+
+  newQuestion();
+</script>
+
+</body>
+</html>
