@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Car Game</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #000;
+    }
+
+    #gameArea {
+      width: 400px;
+      height: 600px;
+      margin: 20px auto;
+      background: #444;
+      position: relative;
+      border: 5px solid #fff;
+    }
+
+    .car {
+      width: 50px;
+      height: 100px;
+      background: red;
+      position: absolute;
+      bottom: 10px;
+      left: 175px;
+      border-radius: 10px;
+    }
+
+    .enemy {
+      width: 50px;
+      height: 100px;
+      background: yellow;
+      position: absolute;
+      top: 0px;
+      left: 125px;
+      border-radius: 10px;
+    }
+
+    #score {
+      color: white;
+      text-align: center;
+      font-size: 24px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="score">Score: 0</div>
+  <div id="gameArea">
+    <div class="car" id="playerCar"></div>
+    <div class="enemy" id="enemyCar"></div>
+  </div>
+
+  <script>
+    const gameArea = document.getElementById("gameArea");
+    const playerCar = document.getElementById("playerCar");
+    const enemyCar = document.getElementById("enemyCar");
+    const scoreDisplay = document.getElementById("score");
+
+    let playerX = 175;
+    let enemyY = 0;
+    let enemyX = 125;
+    let score = 0;
+    let gameOver = false;
+
+    function movePlayer(e) {
+      if (gameOver) return;
+
+      if (e.key === "ArrowLeft" && playerX > 0) {
+        playerX -= 25;
+      } else if (e.key === "ArrowRight" && playerX < 350) {
+        playerX += 25;
+      }
+      playerCar.style.left = playerX + "px";
+    }
+
+    function moveEnemy() {
+      if (gameOver) return;
+
+      enemyY += 5;
+      if (enemyY > 600) {
+        enemyY = -100;
+        enemyX = Math.floor(Math.random() * 8) * 50;
+        enemyCar.style.left = enemyX + "px";
+        score++;
+        scoreDisplay.innerText = "Score: " + score;
+      }
+
+      enemyCar.style.top = enemyY + "px";
+
+      // Collision detection
+      if (
+        enemyY + 100 >= 500 && // enemy near player
+        enemyX < playerX + 50 &&
+        enemyX + 50 > playerX
+      ) {
+        alert("💥 Crash! Game Over.\nScore: " + score);
+        gameOver = true;
+      }
+
+      if (!gameOver) {
+        requestAnimationFrame(moveEnemy);
+      }
+    }
+
+    document.addEventListener("keydown", movePlayer);
+    moveEnemy();
+  </script>
+
+</body>
+</html>
