@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Memory Pattern Game</title>
+  <style>
+    body { background: #222; color: white; text-align: center; font-family: sans-serif; padding-top: 50px; }
+    input { padding: 10px; font-size: 1.2em; }
+    button { padding: 10px; margin: 10px; font-size: 1em; }
+  </style>
+</head>
+<body>
+
+<h1>🧠 Number Pattern Memory</h1>
+<p id="pattern"></p>
+<input id="userInput" placeholder="Repeat the pattern">
+<br>
+<button onclick="checkPattern()">Check</button>
+<p id="result"></p>
+
+<script>
+  let pattern = '';
+  const patternEl = document.getElementById('pattern');
+  const input = document.getElementById('userInput');
+  const result = document.getElementById('result');
+
+  function generatePattern() {
+    pattern = '';
+    for (let i = 0; i < 5; i++) {
+      pattern += Math.floor(Math.random() * 10);
+    }
+    patternEl.innerText = pattern;
+    setTimeout(() => patternEl.innerText = '🔒 Hidden', 2000);
+  }
+
+  function checkPattern() {
+    if (input.value === pattern) {
+      result.innerText = '✅ Correct!';
+    } else {
+      result.innerText = '❌ Incorrect! Pattern was: ' + pattern;
+    }
+    generatePattern();
+    input.value = '';
+  }
+
+  generatePattern();
+</script>
+
+</body>
+</html>
